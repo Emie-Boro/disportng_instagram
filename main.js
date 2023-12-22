@@ -8,6 +8,7 @@ const session = require('express-session')
 const passport = require('./config/passport')
 const multer = require('multer')
 const exphbs = require('express-handlebars')
+const PORT = process.env.PORT || 8080;
 
 // Multer initializataion
 const storage = multer.memoryStorage();
@@ -20,7 +21,7 @@ const upload = multer({storage: storage})
 const mongoose = require('mongoose')
 // const mongoose = require('mongoose')
 const connectDB = require('./config/db')
-connectDB()
+
 
 app.use(express.static(path.join(__dirname, 'public')))
 
@@ -129,4 +130,6 @@ app.get('/logout', (req, res)=>{
     })
     res.redirect('/login')
 })
-app.listen(process.env.PORT || 8080, console.log('Server connected...'))
+connectDB().then(()=> {
+    app.listen(PORT, console.log('Server connected...'))
+})
