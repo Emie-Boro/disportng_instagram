@@ -14,27 +14,22 @@ const PORT = process.env.PORT || 8080;
 const storage = multer.memoryStorage();
 const upload = multer({storage: storage})
 
-
-
 // Database collection
 // Check connection status
 const mongoose = require('mongoose')
-// const mongoose = require('mongoose')
-// const connectDB = require('./config/db')
+const connectDB = require('./config/db')
 
-const connectDB = async () => {
-    try {
-        const conn = await mongoose.connect(process.env.MONGO_URL);
-        console.log(`MongoDB Connected: ${conn.connection.host}`);
-    } catch (error) {
-        console.log(error);
-        process.exit(1);
-    }
-}
+// const connectDB = async () => {
+//     try {
+//         const conn = await mongoose.connect(process.env.MONGO_URL);
+//         console.log(`MongoDB Connected: ${conn.connection.host}`);
+//     } catch (error) {
+//         console.log(error);
+//         process.exit(1);
+//     }
+// }
 
-connectDB().then(()=> {
-    app.listen(PORT, console.log('Server connected...'))
-})
+connectDB()
 
 app.use(express.static(path.join(__dirname, 'public')))
 
@@ -144,8 +139,6 @@ app.get('/logout', (req, res)=>{
     res.redirect('/login')
 })
 
-connectDB().then(() => {
-    app.listen(PORT, () => {
-        console.log("listening for requests");
-    })
+app.listen(PORT, () => {
+    console.log("listening for requests");
 })
