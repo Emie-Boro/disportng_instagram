@@ -129,4 +129,4 @@ app.get('/logout', (req, res)=>{
     })
     res.redirect('/login')
 })
-app.listen(8080, console.log('Server connected...'))
+app.listen(process.env.PORT || 8080, console.log('Server connected...'))
