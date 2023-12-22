@@ -20,7 +20,18 @@ const upload = multer({storage: storage})
 // Check connection status
 const mongoose = require('mongoose')
 // const mongoose = require('mongoose')
-const connectDB = require('./config/db')
+// const connectDB = require('./config/db')
+
+const connectDB = async () => {
+    try {
+        const conn = await mongoose.connect(process.env.MONGO_URL);
+        console.log(`MongoDB Connected: ${conn.connection.host}`);
+    } catch (error) {
+        console.log(error);
+        process.exit(1);
+    }
+}
+
 connectDB().then(()=> {
     app.listen(PORT, console.log('Server connected...'))
 })
@@ -131,4 +142,10 @@ app.get('/logout', (req, res)=>{
         if(err) throw err;
     })
     res.redirect('/login')
+})
+
+connectDB().then(() => {
+    app.listen(PORT, () => {
+        console.log("listening for requests");
+    })
 })
