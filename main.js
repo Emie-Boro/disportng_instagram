@@ -88,8 +88,8 @@ app.post('/login', (req, res, next) => {
 app.get('/signup', (req, res)=>{
     res.render('signup')
 })
-app.post('/signup', (req,res)=>{
-    let newUser = new User({
+app.post('/signup', async (req,res)=>{
+    let newUser = await new User({
         name:req.body.name,
         email:req.body.email,
         phone:req.body.phone,
