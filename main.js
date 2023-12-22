@@ -21,7 +21,9 @@ const upload = multer({storage: storage})
 const mongoose = require('mongoose')
 // const mongoose = require('mongoose')
 const connectDB = require('./config/db')
-
+connectDB().then(()=> {
+    app.listen(PORT, console.log('Server connected...'))
+})
 
 app.use(express.static(path.join(__dirname, 'public')))
 
@@ -129,7 +131,4 @@ app.get('/logout', (req, res)=>{
         if(err) throw err;
     })
     res.redirect('/login')
-})
-connectDB().then(()=> {
-    app.listen(PORT, console.log('Server connected...'))
 })
