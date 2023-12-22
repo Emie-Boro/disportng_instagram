@@ -28,7 +28,7 @@ app.engine('.hbs', exphbs.engine({ extname:'.hbs', defaultLayout:'main' }))
 app.set('view engine', '.hbs')
 app.set('views', path.join(__dirname, 'views'))
 
-dotenv.config({path: path.join(__dirname, '/config/.env')})
+// dotenv.config({path: path.join(__dirname, '/config/.env')})
 
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
