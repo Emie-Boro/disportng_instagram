@@ -97,12 +97,12 @@ app.post('/signup', async (req,res)=>{
             throw err;
         }
 
-        bcrypt.hash(newUser.password, salt, (err, hash)=>{
+        bcrypt.hash(newUser.password, salt, async(err, hash)=>{
             if(err) {
                 throw err;
             }
             newUser.password = hash;
-            newUser.save().then(()=> console.log('Saved...'))
+            await newUser.save();
         })
     })
     
