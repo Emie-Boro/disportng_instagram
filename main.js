@@ -8,7 +8,9 @@ const session = require('express-session')
 const passport = require('./config/passport')
 const multer = require('multer')
 const exphbs = require('express-handlebars')
-const PORT = process.env.PORT || 8080;
+
+// dotenv.config({path: path.join(__dirname, '/config/.env')})
+
 
 // Multer initializataion
 const storage = multer.memoryStorage();
@@ -37,7 +39,6 @@ app.engine('.hbs', exphbs.engine({ extname:'.hbs', defaultLayout:'main' }))
 app.set('view engine', '.hbs')
 app.set('views', path.join(__dirname, 'views'))
 
-// dotenv.config({path: path.join(__dirname, '/config/.env')})
 
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
@@ -136,6 +137,6 @@ app.get('/logout', (req, res)=>{
     res.redirect('/login')
 })
 
-app.listen(PORT, () => {
+app.listen(process.env.PORT || 8080, () => {
     console.log("listening for requests");
 })
