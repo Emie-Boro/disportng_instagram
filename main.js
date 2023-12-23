@@ -32,6 +32,8 @@ const connectDB = require('./config/db')
 // }
 
 connectDB()
+//------------Model----------------------
+const User = require('./config/User');
 
 app.use(express.static(path.join(__dirname, 'public')))
 
@@ -54,8 +56,7 @@ app.use(passport.session())
 
 const { ensureAuthenticated } = require('./config/auth')
 
-//------------Model----------------------
-const User = require('./config/User');
+
 
 app.get('/', (req, res)=>{
     if(req.isAuthenticated()) {
