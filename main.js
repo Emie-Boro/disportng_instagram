@@ -98,19 +98,10 @@ app.post('/signup', async (req,res)=>{
         password:password
     })
 
-    bcrypt.genSalt(10, (err, salt) => {
-        if(err) {
-            throw err;
-        }
-
-        bcrypt.hash(newUser.password, salt, (err, hash)=>{
-            if(err) {
-                throw err;
-            }
-            newUser.password = hash;
-            newUser.save();
-        })
-    })
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(newUser.password, salt);
+    newUser.password = hash;
+    newUser.save()
     
     res.redirect('/login')
 })
