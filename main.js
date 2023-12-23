@@ -8,7 +8,7 @@ const session = require('express-session')
 const passport = require('./config/passport')
 const multer = require('multer')
 const exphbs = require('express-handlebars')
-
+const PORT = process.env.PORT || 8080;
 // dotenv.config({path: path.join(__dirname, '/config/.env')})
 
 
@@ -31,7 +31,7 @@ const connectDB = require('./config/db')
 //     }
 // }
 
-connectDB()
+// connectDB()
 //------------Model----------------------
 const User = require('./config/User');
 
@@ -138,6 +138,11 @@ app.get('/logout', (req, res)=>{
     res.redirect('/login')
 })
 
-app.listen(process.env.PORT || 8080, () => {
-    console.log("listening for requests");
+// app.listen(process.env.PORT || 8080, () => {
+//     console.log("listening for requests");
+// })
+connectDB().then(() => {
+    app.listen(PORT, () => {
+        console.log("listening for requests");
+    })
 })
