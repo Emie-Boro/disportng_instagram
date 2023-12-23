@@ -28,6 +28,19 @@ const User = require('./config/User');
 
 app.use(express.static(path.join(__dirname, 'public')))
 
+// Middleware to set Open Graph meta tags dynamically
+app.use((req, res, next) => {
+    res.locals.og = {
+        title: 'Disport NG',
+        description: 'Disport NG Instagram Template for Posting',
+        url: `https://grumpy-dirndl-mite.cyclic.app/`, // Use the current request URL
+        image: './public/images/logo.png',
+        type: 'website',
+        locale: 'en_US',
+    };
+    next();
+});
+
 app.engine('.hbs', exphbs.engine({ extname:'.hbs', defaultLayout:'main' }))
 app.set('view engine', '.hbs')
 app.set('views', path.join(__dirname, 'views'))
