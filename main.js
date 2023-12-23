@@ -34,7 +34,6 @@ app.use((req, res, next) => {
         title: 'Disport NG',
         description: 'Disport NG Instagram Template for Posting',
         url: `https://grumpy-dirndl-mite.cyclic.app/`, // Use the current request URL
-        image: '/images/logo.png',
         type: 'website',
         locale: 'en_US',
     };
