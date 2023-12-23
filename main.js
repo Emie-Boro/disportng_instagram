@@ -9,6 +9,7 @@ const passport = require('./config/passport')
 const multer = require('multer')
 const exphbs = require('express-handlebars')
 const PORT = process.env.PORT || 8080;
+
 // dotenv.config({path: path.join(__dirname, '/config/.env')})
 
 
@@ -20,16 +21,6 @@ const upload = multer({storage: storage})
 // Check connection status
 const mongoose = require('mongoose')
 const connectDB = require('./config/db')
-
-// const connectDB = async () => {
-//     try {
-//         const conn = await mongoose.connect(process.env.MONGO_URL);
-//         console.log(`MongoDB Connected: ${conn.connection.host}`);
-//     } catch (error) {
-//         console.log(error);
-//         process.exit(1);
-//     }
-// }
 
 // connectDB()
 //------------Model----------------------
@@ -125,6 +116,7 @@ app.post('/export', ensureAuthenticated, upload.single('image'), (req,res)=>{
     const imageURL = `data:${req.file.mimetype};base64,${base64Image}`;
 
     res.render('export', {
+        layout: 'export',
         imageURL,
         title: req.body.title,
         content:req.body.content
@@ -135,11 +127,11 @@ app.get('/logout', (req, res)=>{
     req.logOut(err =>{
         if(err) throw err;
     })
-    res.redirect('/login')
+    res.redirect('/')
 })
 
 // app.listen(process.env.PORT || 8080, () => {
-//     console.log("listening for requests");
+//     console.log('Server started...');
 // })
 connectDB().then(() => {
     app.listen(PORT, () => {
