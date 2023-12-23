@@ -30,12 +30,12 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 // Middleware to set Open Graph meta tags dynamically
 app.use((req, res, next) => {
-    const baseUrl = process.env.NODE_ENV === 'production' ? 'https://grumpy-dirndl-mite.cyclic.app/' : 'http://localhost:3000';
+    // const baseUrl = process.env.NODE_ENV === 'production' ? 'https://grumpy-dirndl-mite.cyclic.app/' : 'http://localhost:3000';
     res.locals.og = {
         title: 'Disport NG',
         description: 'Disport NG Instagram Template for Posting',
-        url: `${baseUrl}${req.originalUrl}`, // Use the current request URL
-        image: `${baseUrl}/default-image.jpg`,
+        // url: `${baseUrl}${req.originalUrl}`, // Use the current request URL
+        // image: `${baseUrl}/default-image.jpg`,
         type: 'website',
         locale: 'en_US',
     };
