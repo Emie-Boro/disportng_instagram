@@ -84,12 +84,18 @@ app.get('/signup', (req, res)=>{
     res.render('signup')
 })
 app.post('/signup', async (req,res)=>{
+    const name = req.body.name;
+    const email = req.body.email
+    const phone = req.body.phone;
+    const username = req.body.username;
+    const password = req.body.password;
+
     let newUser = await new User({
-        name:req.body.name,
-        email:req.body.email,
-        phone:req.body.phone,
-        username:req.body.username,
-        password:req.body.password
+        name:name,
+        email:email,
+        phone:phone,
+        username:username,
+        password:password
     })
 
     bcrypt.genSalt(10, (err, salt) => {
@@ -97,12 +103,12 @@ app.post('/signup', async (req,res)=>{
             throw err;
         }
 
-        bcrypt.hash(newUser.password, salt, async(err, hash)=>{
+        bcrypt.hash(newUser.password, salt, (err, hash)=>{
             if(err) {
                 throw err;
             }
             newUser.password = hash;
-            await newUser.save();
+            newUser.save();
         })
     })
     
