@@ -1,0 +1,10 @@
+{{#each stories}}
+    <ul>
+        <li class="flex">
+            <h1>{{this.title}}</h1>
+            <p>{{this.name}}</p>
+            <P>{{this.state}}</P>
+            <a href="/story/{{this._id}}">View</a>
+        </li>
+    </ul>
+{{/each}}

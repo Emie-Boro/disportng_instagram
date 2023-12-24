@@ -1,3 +1,33 @@
-<h1>Disport Nigeria</h1>
-<p>Social Media Template</p>
-<a class="index-login" href="/login">Login</a>
+<form id="storyForm">
+    <div class="story-bio">
+        <div class="form-control">
+            <label for="">Name</label>
+            <input type="text" name="name" id="storyName">
+        </div>
+        <div class="form-control">
+            <label for="">State</label>
+            <input type="text" name="state" id="storyState">
+        </div>
+        <div class="form-control">
+            <label for="">Phone</label>
+            <input type="text" name="phone" id="storyPhone">
+        </div>
+        <div class="form-control">
+            <label for="">Email</label>
+            <input type="text" name="email" id="storyEmail">
+        </div>
+    </div>
+
+    <div class="story-content">
+        <div class="form-control">
+            <label for="">Title</label>
+            <input type="text" name="title" id="storyTitle">
+        </div>
+        <div class="form-control">
+            <label for="">Body</label>
+            <textarea name="content" id="storyContent" cols="30" rows="10"></textarea>
+        </div>
+    </div>
+    
+    <button type="button" onclick="submitForm()">Submit</button>
+</form>

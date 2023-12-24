@@ -25,6 +25,7 @@ const connectDB = require('./config/db')
 // connectDB()
 //------------Model----------------------
 const User = require('./config/User');
+const Story = require('./config/Story')
 
 app.use(express.static(path.join(__dirname, 'public')))
 
@@ -62,12 +63,13 @@ app.use(passport.session())
 const { ensureAuthenticated } = require('./config/auth')
 
 
-
 app.get('/', (req, res)=>{
     if(req.isAuthenticated()) {
         res.redirect('/dashboard')
     }
-    res.render('index', {title: 'Disport NG', })
+    res.render('index', {
+        title: 'Disport NG', 
+    })
 })
 
 
@@ -130,7 +132,7 @@ app.post('/export', ensureAuthenticated, upload.single('image'), (req,res)=>{
     const imageURL = `data:${req.file.mimetype};base64,${base64Image}`;
 
     res.render('export', {
-        layout: 'export',
+        layout: 'dashboard',
         imageURL,
         title: req.body.title,
         content:req.body.content
@@ -142,6 +144,51 @@ app.get('/logout', (req, res)=>{
         if(err) throw err;
     })
     res.redirect('/')
+})
+
+
+// ___________________________Story Post ___________________________________________
+app.get('/stories', ensureAuthenticated, async (req,res)=>{
+    const stories = await Story.find({}).lean()
+
+    res.render('stories', {
+        layout:'dashboard',
+        title:'Stories',
+        stories:stories
+    })
+})
+
+app.post('/story/share', async (req,res)=>{
+    try {
+        // Save the story to the database
+        await new Story({
+            state: req.body.state,
+            phone: req.body.phone,
+            email: req.body.email,
+            name: req.body.name,
+            title: req.body.title,
+            content: req.body.content
+        }).save();
+
+        // Send a success response
+        res.status(200).json({ success: true, message: 'Story saved successfully' });
+    } catch (error) {
+        // Send an error response
+        res.status(500).json({ success: false, message: 'Failed to save the story' });
+    }
+})
+
+app.get('/story/:id', ensureAuthenticated, async (req,res)=>{
+    const story = await Story.findById(req.params.id).lean()
+    res.render('story',{
+        layout:'dashboard',
+        title:story.title,
+        content:story.content,
+        name:story.name,
+        phone:story.phone,
+        email:story.email,
+        state:story.state
+    })
 })
 
 // app.listen(process.env.PORT || 8080, () => {
