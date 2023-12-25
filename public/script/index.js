@@ -17,9 +17,13 @@ function submitForm() {
     })
     .then(response => response.json())
     .then(data => {
+        alert('Story Shared successfully')
+        document.getElementById('storyForm').reset()
         console.log('Server response:', data);
     })
     .catch(error => {
         console.error('Error:', error);
     });
+
+    
 }

@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway&family=Roboto:wght@100&display=swap');
+
+
+:root{
+    --bg-red: #fd1717;
+}
+
+body{
+    font-family: 'Raleway', 'san-serif';
+    margin:0;
+    padding:0;
+}
+.container{
+    width: 80%;
+    margin:0 auto;
+}
+.btn{
+    padding: 10px 40px;
+    width: 132px;
+    height:51px;
+    background-color: var(--bg-red);
+    border: none;
+    color: white;
+}
+.btn:hover{
+    opacity: 0.3;
+}
