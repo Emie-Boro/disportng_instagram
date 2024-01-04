@@ -29,19 +29,6 @@ const Story = require('./config/Story')
 
 app.use(express.static(path.join(__dirname, 'public')))
 
-// Middleware to set Open Graph meta tags dynamically
-app.use((req, res, next) => {
-    // const baseUrl = process.env.NODE_ENV === 'production' ? 'https://grumpy-dirndl-mite.cyclic.app/' : 'http://localhost:3000';
-    res.locals.og = {
-        title: 'Disport NG',
-        description: 'Disport NG Instagram Template for Posting',
-        // url: `${baseUrl}${req.originalUrl}`, // Use the current request URL
-        // image: `${baseUrl}/default-image.jpg`,
-        type: 'website',
-        locale: 'en_US',
-    };
-    next();
-});
 
 app.engine('.hbs', exphbs.engine({ extname:'.hbs', defaultLayout:'main' }))
 app.set('view engine', '.hbs')
