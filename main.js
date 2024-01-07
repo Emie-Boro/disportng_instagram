@@ -105,10 +105,14 @@ app.post('/signup', async (req,res)=>{
     res.redirect('/login')
 })
 
-app.get('/dashboard', ensureAuthenticated, (req, res)=>{
-    res.render('dashboard', {
-        layout:'dashboard'
-    })
+app.get('/dashboard', (req, res)=>{
+    if(req.isAuthenticated()) {
+        res.render('dashboard', {
+            layout:'dashboard'
+        })
+    } else{
+        res.redirect('/login')
+    }
 })
 
 app.get('/logout', (req, res)=>{
