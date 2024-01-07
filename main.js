@@ -42,8 +42,8 @@ app.use(bodyParser.json())
 
 app.use(session({
     secret:process.env.SECRET_KEY,
-    resave: false,
-    saveUninitialized: false
+    resave: true,
+    saveUninitialized: true
 }))
 app.use(passport.initialize())
 app.use(passport.session())
@@ -111,17 +111,13 @@ app.get('/dashboard', ensureAuthenticated, (req, res)=>{
     })
 })
 
-app.get('/newInstagramPost', (req, res)=>{
-    if(req.isAuthenticated()) {
-        res.render('newInstagramPost', {
-            title: req.user.username, 
-            layout:'dashboard',
-            username: req.user.username,
-            name: req.user.name,
-        })
-    } else{
-        res.redirect('/')
-    }
+app.get('/newInstagramPost', ensureAuthenticated, (req, res)=>{
+    res.render('newInstagramPost', {
+        title: req.user.username, 
+        layout:'dashboard',
+        username: req.user.username,
+        name: req.user.name,
+    })
 })
 app.post('/export', ensureAuthenticated, upload.single('image'), (req,res)=>{
     if (!req.file) {
@@ -139,12 +135,7 @@ app.post('/export', ensureAuthenticated, upload.single('image'), (req,res)=>{
     })
 })
 
-app.get('/logout', (req, res)=>{
-    req.logOut(err =>{
-        if(err) throw err;
-    })
-    res.redirect('/')
-})
+
 
 
 // ___________________________Story Post ___________________________________________
@@ -195,6 +186,13 @@ app.get('/stories/:id', ensureAuthenticated, async (req,res)=>{
 app.delete('/story/:id', ensureAuthenticated, async (req,res)=>{
     await Story.deleteOne({_id:req.params.id})
     res.redirect('/stories')
+})
+
+app.get('/logout', (req, res)=>{
+    req.logOut(err =>{
+        if(err) throw err;
+    })
+    res.redirect('/')
 })
 
 // app.listen(process.env.PORT || 8080, () => {
