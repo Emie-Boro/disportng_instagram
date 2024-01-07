@@ -4,7 +4,12 @@
             <h1>{{this.title}}</h1>
             <p>{{this.name}}</p>
             <P>{{this.state}}</P>
-            <a href="/story/{{this._id}}">View</a>
+            <a href="/stories/{{this._id}}">View</a>
+            <div class="container">
+                <form method="POST" action="/story/{{this._id}}?_method=DELETE">
+                    <button type="submit">Delete Story</button>
+                </form>
+            </div>
         </li>
     </ul>
 {{/each}}

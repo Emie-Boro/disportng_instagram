@@ -8,6 +8,7 @@ const session = require('express-session')
 const passport = require('./config/passport')
 const multer = require('multer')
 const exphbs = require('express-handlebars')
+const methodOverride = require('method-override')
 const PORT = process.env.PORT || 8080;
 
 // dotenv.config({path: path.join(__dirname, '/config/.env')})
@@ -28,6 +29,7 @@ const User = require('./config/User');
 const Story = require('./config/Story')
 
 app.use(express.static(path.join(__dirname, 'public')))
+app.use(methodOverride('_method'))
 
 
 app.engine('.hbs', exphbs.engine({ extname:'.hbs', defaultLayout:'main' }))
@@ -47,7 +49,8 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 
-const { ensureAuthenticated } = require('./config/auth')
+const { ensureAuthenticated } = require('./config/auth');
+const { readFile } = require('fs');
 
 
 app.get('/', (req, res)=>{
@@ -104,7 +107,13 @@ app.post('/signup', async (req,res)=>{
 
 app.get('/dashboard', ensureAuthenticated, (req, res)=>{
     res.render('dashboard', {
-        title: 'New Post', 
+        layout:'dashboard'
+    })
+})
+
+app.get('/newInstagramPost', ensureAuthenticated, (req, res)=>{
+    res.render('newInstagramPost', {
+        title: req.user.username, 
         layout:'dashboard',
         username: req.user.username,
         name: req.user.name,
@@ -135,6 +144,11 @@ app.get('/logout', (req, res)=>{
 
 
 // ___________________________Story Post ___________________________________________
+app.get('/newStory', (req,res)=>{
+    res.render('newStory',{
+        layout: req.isAuthenticated() ? 'dashboard' : 'main',
+    })
+})
 app.get('/stories', ensureAuthenticated, async (req,res)=>{
     const stories = await Story.find({}).lean()
 
@@ -165,22 +179,22 @@ app.post('/story/share', async (req,res)=>{
     }
 })
 
-app.get('/story/:id', ensureAuthenticated, async (req,res)=>{
+app.get('/stories/:id', ensureAuthenticated, async (req,res)=>{
     const story = await Story.findById(req.params.id).lean()
     res.render('story',{
         layout:'dashboard',
-        title:story.title,
-        content:story.content,
-        name:story.name,
-        phone:story.phone,
-        email:story.email,
-        state:story.state
+        story
     })
 })
 
-// app.listen(process.env.PORT || 8080, () => {
-//     console.log('Server started...');
-// })
+
+app.delete('/story/:id', ensureAuthenticated, async (req,res)=>{
+    await Story.deleteOne({_id:req.params.id})
+    res.redirect('/stories')
+})
+app.listen(process.env.PORT || 8080, () => {
+    console.log('Server started...');
+})
 
 
 connectDB().then(() => {
