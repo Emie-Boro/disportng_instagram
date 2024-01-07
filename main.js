@@ -49,6 +49,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 
+const { ensureAuthenticated } = require('./config/auth');
 const { readFile } = require('fs');
 
 
@@ -110,13 +111,17 @@ app.get('/dashboard', ensureAuthenticated, (req, res)=>{
     })
 })
 
-app.get('/newInstagramPost', ensureAuthenticated, (req, res)=>{
-    res.render('newInstagramPost', {
-        title: req.user.username, 
-        layout:'dashboard',
-        username: req.user.username,
-        name: req.user.name,
-    })
+app.get('/newInstagramPost', (req, res)=>{
+    if(req.isAuthenticated()) {
+        res.render('newInstagramPost', {
+            title: req.user.username, 
+            layout:'dashboard',
+            username: req.user.username,
+            name: req.user.name,
+        })
+    } else{
+        res.redirect('/')
+    }
 })
 app.post('/export', ensureAuthenticated, upload.single('image'), (req,res)=>{
     if (!req.file) {
@@ -195,8 +200,6 @@ app.delete('/story/:id', ensureAuthenticated, async (req,res)=>{
 // app.listen(process.env.PORT || 8080, () => {
 //     console.log('Server started...');
 // })
-
-const { ensureAuthenticated } = require('./config/auth');
 
 
 connectDB().then(() => {
