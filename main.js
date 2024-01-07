@@ -111,7 +111,7 @@ app.get('/dashboard', ensureAuthenticated, (req, res)=>{
     })
 })
 
-app.get('/newInstagramPost', ensureAuthenticated, (req, res)=>{
+app.get('/newInstagramPost', (req, res)=>{
     res.render('newInstagramPost', {
         title: req.user.username, 
         layout:'dashboard',
@@ -144,7 +144,7 @@ app.get('/newStory', (req,res)=>{
         // layout: req.isAuthenticated() ? 'dashboard' : 'main',
     })
 })
-app.get('/stories', ensureAuthenticated, async (req,res)=>{
+app.get('/stories', async (req,res)=>{
     const stories = await Story.find({}).lean()
 
     res.render('stories', {
@@ -174,7 +174,7 @@ app.post('/story/share', async (req,res)=>{
     }
 })
 
-app.get('/stories/:id', ensureAuthenticated, async (req,res)=>{
+app.get('/stories/:id', async (req,res)=>{
     const story = await Story.findById(req.params.id).lean()
     res.render('story',{
         layout:'dashboard',
@@ -183,7 +183,7 @@ app.get('/stories/:id', ensureAuthenticated, async (req,res)=>{
 })
 
 
-app.delete('/story/:id', ensureAuthenticated, async (req,res)=>{
+app.delete('/story/:id', async (req,res)=>{
     await Story.deleteOne({_id:req.params.id})
     res.redirect('/stories')
 })
