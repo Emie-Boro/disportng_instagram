@@ -146,7 +146,7 @@ app.get('/logout', (req, res)=>{
 // ___________________________Story Post ___________________________________________
 app.get('/newStory', (req,res)=>{
     res.render('newStory',{
-        layout: req.isAuthenticated() ? 'dashboard' : 'main',
+        // layout: req.isAuthenticated() ? 'dashboard' : 'main',
     })
 })
 app.get('/stories', ensureAuthenticated, async (req,res)=>{
