@@ -23,7 +23,7 @@ const upload = multer({storage: storage})
 const mongoose = require('mongoose')
 const connectDB = require('./config/db')
 
-// connectDB()
+connectDB()
 //------------Model----------------------
 const User = require('./config/User');
 const Story = require('./config/Story')
@@ -189,15 +189,15 @@ app.get('/logout', (req, res)=>{
     res.redirect('/')
 })
 
-// app.listen(process.env.PORT || 8080, () => {
-//     console.log('Server started...');
-// })
-
-
-connectDB().then(() => {
-    app.listen(PORT, () => {
-        console.log("listening for requests");
-    })
-}).catch(err=>{
-    console.log(err)
+app.listen(process.env.PORT || 8080, () => {
+    console.log('Server started...');
 })
+
+
+// connectDB().then(() => {
+//     app.listen(PORT, () => {
+//         console.log("listening for requests");
+//     })
+// }).catch(err=>{
+//     console.log(err)
+// })
