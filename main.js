@@ -42,14 +42,13 @@ app.use(bodyParser.json())
 
 app.use(session({
     secret:process.env.SECRET_KEY,
-    resave: true,
-    saveUninitialized: true
+    resave: false,
+    saveUninitialized: false
 }))
 app.use(passport.initialize())
 app.use(passport.session())
 
 
-const { ensureAuthenticated } = require('./config/auth');
 const { readFile } = require('fs');
 
 
@@ -196,6 +195,8 @@ app.delete('/story/:id', ensureAuthenticated, async (req,res)=>{
 // app.listen(process.env.PORT || 8080, () => {
 //     console.log('Server started...');
 // })
+
+const { ensureAuthenticated } = require('./config/auth');
 
 
 connectDB().then(() => {
