@@ -113,10 +113,7 @@ app.get('/dashboard', ensureAuthenticated, (req, res)=>{
 
 app.get('/newInstagramPost', (req, res)=>{
     res.render('newInstagramPost', {
-        title: req.user.username, 
-        layout:'dashboard',
-        username: req.user.username,
-        name: req.user.name,
+        layout: 'dashboard'
     })
 })
 app.post('/export', ensureAuthenticated, upload.single('image'), (req,res)=>{
