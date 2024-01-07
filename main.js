@@ -192,9 +192,9 @@ app.delete('/story/:id', ensureAuthenticated, async (req,res)=>{
     await Story.deleteOne({_id:req.params.id})
     res.redirect('/stories')
 })
-app.listen(process.env.PORT || 8080, () => {
-    console.log('Server started...');
-})
+// app.listen(process.env.PORT || 8080, () => {
+//     console.log('Server started...');
+// })
 
 
 connectDB().then(() => {
